@@ -124,7 +124,7 @@ class Exam(object):
         self.questions.append(question)
 
     def administer(self):
-        """Administer's all of the exam's questions"""
+        """Administer's all of the exam questions"""
 
         points = 0.0
 
@@ -138,6 +138,24 @@ class Exam(object):
         return (points / len(self.questions)) * 100
 
 
+class Quiz(Exam):
+    """Quiz is a subclass of Exam"""
+
+    def administer(self):
+        """Administer's all of the quiz questions"""
+
+        # inherits administer functionality from Exam class
+        score = super(Quiz, self).administer()
+
+        # checks if score is greater than 50, if so returns 1 for pass,
+        # and 0 for fail.
+        if score > 50:
+            return 1
+        
+        else:
+            return 0
+
+
 class StudentExam(object):
     """Stores student, exam, and score info"""
 
@@ -148,39 +166,59 @@ class StudentExam(object):
         self.exam = exam
         self.score = 0
 
-    def take_test(self):
-        """Admisisters exam and assigns the actual score"""
 
-        self.score = exam.administer()
+def take_test(exam, student):
+    """Admisisters exam and assigns the actual score"""
 
-        print "Score: {}".format(self.score)
+    student.score = exam.administer()
+
+    print "Score: {}".format(student.score)
 
 
-"""
-
-Here is the solution I was working on for Part 4.  When calling the example function
-it returns an error.
-
+"""PART 4"""
 
 def example():
 
-    exam = Exam('midterm')
+    midterm = Exam('midterm')
 
     set_q = Question('What is the method for adding an element to a set?', '.add()')
-    exam.add_question(set_q)
+    midterm.add_question(set_q)
 
     pwd_q = Question('What does pwd stand for?', 'print working directory')
-    exam.add_question(pwd_q)
+    midterm.add_question(pwd_q)
 
     list_q = Question('Python lists are mutable, iterable, and what?', 'ordered')
-    exam.add_question(list_q)
+    midterm.add_question(list_q)
 
-    student_data = Student('Jasmine', 'Debugger', '0101 Computer Street')
+    jasmine = Student('Jasmine', 'Debugger', '0101 Computer Street')
 
-    studentexam = StudentExam(student_data, exam)
+    take_test(midterm, jasmine)
 
-    studentexam.take_test()
-"""
+# example()
+
+
+"""PART 5"""
+
+def example2():
+
+    quiz = Quiz('quiz')
+
+    q_one = Question('What is the capital of Alberta?', 'Edmonton')
+    quiz.add_question(q_one)
+
+    q_two = Question('Who is the author of Python?', 'Guido Van Rossum')
+    quiz.add_question(q_two)
+
+    q_three = Question('Where is Hackbright Academy located?', 'San Francisco')
+    quiz.add_question(q_three)
+
+    jasmine = Student('Jasmine', 'Debugger', '0101 Computer Street')
+
+    take_test(quiz, jasmine)
+
+# example2()
+
+
 
 
 
